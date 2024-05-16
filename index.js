@@ -82,18 +82,21 @@ const errorsList = [
   }
 ];
 
+const numOfErrors = errorsList.map((x) => x.errors.length).reduce((a,b) => a + b);
+
 const tables = 
 <table style={{width: "280px", border: "1px solid blue"}}>
   <thead>
     <tr>
       <th style={{width: "70px"}}>Name</th>
-      <th style={{width: "200px"}}>Error</th>
+      <th style={{width: "200px"}}>Description</th>
     </tr>
   </thead>
   <tbody>
     {errorsList.map((item) => (<tr>
         <td style={{width: "70px", border: "1px solid blue", verticalAlign: "top"}}>{item.name}</td>
         <td style={{width: "200px", border: "1px solid blue", verticalAlign: "top"}}>
+          <h1 style={{fontStyle: "italic"}}>{`(${item.errors.length} error${item.errors.length > 1 ? "s" : ""})`}</h1>
           {item.errors.map((error, index) => (<p>{`${index + 1}. ${error}`}</p>)
           )}
         </td>
@@ -132,7 +135,7 @@ ReactDOM.render(
       type="primary"
       onClick={() => {
         notification.error({
-          message: "There are 3 errors",
+          message: `There ${numOfErrors > 1 ? "are" : "is"} ${numOfErrors} error${numOfErrors > 1 ? "s" : ""}`,
           description:
             tables
         });
